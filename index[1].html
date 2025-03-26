@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>دفع Ooredoo الكويت</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #d90000;
+      padding: 20px;
+      text-align: center;
+    }
+    header img {
+      width: 100px;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+    }
+    .section {
+      background-color: #f9f9f9;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .button-red {
+      width: 100%;
+      padding: 14px;
+      background-color: #d90000;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .button-red:hover {
+      background-color: #b00000;
+    }
+    .button-outline {
+      width: 100%;
+      padding: 14px;
+      background-color: white;
+      color: #d90000;
+      font-size: 16px;
+      border: 2px solid #d90000;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .summary {
+      background-color: #f1f1f1;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Ooredoo_logo.svg/2560px-Ooredoo_logo.svg.png" alt="Ooredoo logo">
+  </header>
+  <div class="container">
+    <div class="section">
+      <label for="phone">رقم الموبايل</label>
+      <input type="text" id="phone" placeholder="أدخل رقم الموبايل" />
+      <label for="amount">المبلغ</label>
+      <select id="amount">
+        <option value="">اختر المبلغ</option>
+        <option value="5">5 د.ك</option>
+        <option value="10">10 د.ك</option>
+        <option value="20">20 د.ك</option>
+        <option value="40">40 د.ك</option>
+        <option value="50">50 د.ك</option>
+        <option value="60">60 د.ك</option>
+        <option value="70">70 د.ك</option>
+        <option value="100">100 د.ك</option>
+      </select>
+      <button class="button-outline" onclick="resetForm()">الدفع لرقم آخر</button>
+      <div class="summary" id="summaryBox">
+        <strong>إعادة التعبئة / دفع الفواتير</strong><br>
+        الإجمالي: <span id="total">د.ك 0.000</span>
+      </div>
+      <button class="button-red" id="continueBtn" onclick="goNext()">استمرار</button>
+    </div>
+  </div>
+  <script>
+    const amountInput = document.getElementById("amount");
+    const totalText = document.getElementById("total");
+    amountInput.addEventListener("change", () => {
+      const value = parseFloat(amountInput.value);
+      totalText.textContent = isNaN(value) ? "د.ك 0.000" : `د.ك ${value.toFixed(3)}`;
+    });
+    function resetForm() {
+      document.getElementById("phone").value = "";
+      document.getElementById("amount").value = "";
+      totalText.textContent = "د.ك 0.000";
+    }
+    function goNext() {
+      const phone = document.getElementById("phone").value.trim();
+      const amount = parseFloat(document.getElementById("amount").value);
+      if (!phone || phone.length < 7) {
+        alert("يرجى إدخال رقم هاتف صحيح");
+        return;
+      }
+      if (!amount) {
+        alert("يرجى اختيار مبلغ صحيح");
+        return;
+      }
+      localStorage.setItem("phone", phone);
+      localStorage.setItem("amount", amount);
+      window.location.href = "payment-method.html";
+    }
+  </script>
+</body>
+</html>
